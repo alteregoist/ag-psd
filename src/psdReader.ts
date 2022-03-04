@@ -485,7 +485,11 @@ function readLayerChannelImageData(
 
 				setupGrayscale(maskData);
 
-				if (options.useImageData) {
+				if (options.useDataUrl) {
+					const canvas = createCanvas(maskWidth, maskHeight);
+					canvas.getContext('2d')!.putImageData(maskData, 0, 0);
+					mask.dataUrl = canvas.toDataURL('image/png');
+				} else if (options.useImageData) {
 					mask.imageData = maskData;
 				} else {
 					mask.canvas = createCanvas(maskWidth, maskHeight);
@@ -524,7 +528,11 @@ function readLayerChannelImageData(
 			cmykToRgb(cmykData, imageData, false);
 		}
 
-		if (options.useImageData) {
+		if (options.useDataUrl) {
+			const canvas = createCanvas(layerWidth, layerHeight);
+			canvas.getContext('2d')!.putImageData(imageData, 0, 0);
+			layer.dataUrl = canvas.toDataURL('image/png');
+		} else if (options.useImageData) {
 			layer.imageData = imageData;
 		} else {
 			layer.canvas = createCanvas(layerWidth, layerHeight);
@@ -678,7 +686,11 @@ function readImageData(reader: PsdReader, psd: Psd, globalAlpha: boolean, option
 		default: throw new Error(`Color mode not supported: ${psd.colorMode}`);
 	}
 
-	if (options.useImageData) {
+	if (options.useDataUrl) {
+		const canvas = createCanvas(psd.width, psd.height);
+		canvas.getContext('2d')!.putImageData(imageData, 0, 0);
+		psd.dataUrl = canvas.toDataURL('image/png');
+	} else if (options.useImageData) {
 		psd.imageData = imageData;
 	} else {
 		psd.canvas = createCanvas(psd.width, psd.height);
@@ -894,7 +906,7 @@ export function readPattern(reader: PsdReader): PatternInfo {
 				r: readUint8(reader),
 				g: readUint8(reader),
 				b: readUint8(reader),
-			})
+			});
 		}
 
 		skipBytes(reader, 4); // no idea what this is

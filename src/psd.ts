@@ -27,7 +27,7 @@ export type RGB = { r: number; g: number; b: number; }; // values from 0 to 255
 export type HSB = { h: number; s: number; b: number; }; // values from 0 to 1
 export type CMYK = { c: number; m: number; y: number; k: number; }; // values from 0 to 255
 export type LAB = { l: number; a: number; b: number; }; // values `l` from 0 to 1; `a` and `b` from -1 to 1
-export type Grayscale = { k: number }; // values from 0 to 255
+export type Grayscale = { k: number; }; // values from 0 to 255
 export type Color = RGBA | RGB | HSB | CMYK | LAB | Grayscale;
 
 export interface EffectContour {
@@ -235,6 +235,7 @@ export interface LayerMaskData {
 	vectorMaskFeather?: number;
 	canvas?: HTMLCanvasElement;
 	imageData?: ImageData;
+	dataUrl?: string;
 }
 
 export type TextGridding = 'none' | 'round'; // TODO: other values (no idea where to set it up in Photoshop)
@@ -902,8 +903,8 @@ export interface GlobalLayerMaskInfo {
 export interface Annotation {
 	type: 'text' | 'sound';
 	open: boolean;
-	iconLocation: { left: number; top: number; right: number; bottom: number };
-	popupLocation: { left: number; top: number; right: number; bottom: number };
+	iconLocation: { left: number; top: number; right: number; bottom: number; };
+	popupLocation: { left: number; top: number; right: number; bottom: number; };
 	color: Color;
 	author: string;
 	name: string;
@@ -923,6 +924,7 @@ export interface Layer extends LayerAdditionalInfo {
 	clipping?: boolean;
 	canvas?: HTMLCanvasElement;
 	imageData?: ImageData;
+	dataUrl?: string;
 	children?: Layer[];
 	/** applies only for layer groups */
 	opened?: boolean;
@@ -937,6 +939,7 @@ export interface Psd extends LayerAdditionalInfo {
 	children?: Layer[];
 	canvas?: HTMLCanvasElement;
 	imageData?: ImageData;
+	dataUrl?: string;
 	imageResources?: ImageResources;
 	linkedFiles?: LinkedFile[]; // used in smart objects
 	artboards?: {
@@ -967,6 +970,8 @@ export interface ReadOptions {
 	throwForMissingFeatures?: boolean;
 	/** Logs if features are missing. */
 	logMissingFeatures?: boolean;
+	/** dataUrl */
+	useDataUrl?: boolean;
 	/** Keep image data as byte array instead of canvas.
 	 * (image data will appear in `imageData` fields instead of `canvas` fields)
 	 * This avoids issues with canvas premultiplied alpha corrupting image data. */

@@ -8,3 +8,6 @@
 /coverage-remapped
 /test.js
 .vscode
+/src/**/*.js
+/src/**/*.d.ts
+package-lock.json
