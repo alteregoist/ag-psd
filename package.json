@@ -18,7 +18,8 @@
     "lint": "tslint -c tslint.json src/ts/**/*.ts",
     "build": "gulp build && browserify dist/index.js --standalone agPsd -o dist/bundle.js",
     "rollup": "rollup --format=cjs --external base64-js --file=dist-es/bundle.js --sourcemap --sourcemapFile dist-es/bundle.js.map dist-es/index.js",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build"
   },
   "jspm": {
     "main": "dist/index.js",
