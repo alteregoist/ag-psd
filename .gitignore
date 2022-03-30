@@ -7,6 +7,8 @@
 /coverage
 /coverage-remapped
 /test.js
+/test/read/krita
+/test/read-write/weird-vogk
 .vscode
 /src/**/*.js
 /src/**/*.d.ts
